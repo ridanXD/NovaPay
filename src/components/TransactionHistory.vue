@@ -2,12 +2,14 @@
   <div class="page-wrapper">
     <div class="history-container">
       
-            <header class="history-header">
+      <!-- Header Halaman -->
+      <header class="history-header">
         <h2>Riwayat Transaksi</h2>
         <p class="subtitle">Daftar seluruh transaksi masuk dan keluar akun NovaPay Anda</p>
       </header>
 
-            <section class="summary-grid">
+      <!-- Section Ringkasan Aktivitas Transaksi -->
+      <section class="summary-grid">
         <div class="card summary-card">
           <span class="summary-label">Hari Ini</span>
           <div class="summary-value">{{ formatCurrency(summary.today) }}</div>
@@ -27,12 +29,14 @@
         </div>
       </section>
 
-            <div class="card main-card">
+      <!-- Section Seluruh Transaksi -->
+      <div class="card main-card">
         <div class="section-title">
           <h3>Seluruh Transaksi</h3>
         </div>
 
-                <div class="filter-bar">
+        <!-- Filter & Pencarian -->
+        <div class="filter-bar">
           <div class="search-box">
             <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"></circle>
@@ -56,15 +60,18 @@
           </div>
         </div>
 
-                <div v-if="isLoading" class="state-message">
+        <!-- Loading State -->
+        <div v-if="isLoading" class="state-message">
           Memuat data riwayat...
         </div>
 
-                <div v-else-if="errorMessage" class="state-message error">
+        <!-- Error State -->
+        <div v-else-if="errorMessage" class="state-message error">
           {{ errorMessage }}
         </div>
 
-                <div v-else class="table-responsive">
+        <!-- Tabel Riwayat Seluruh Transaksi -->
+        <div v-else class="table-responsive">
           <table class="history-table">
             <thead>
               <tr>
@@ -113,13 +120,13 @@ export default {
       selectedFilter: 'all',
       isLoading: false,
       errorMessage: '',
-      
+      // Data Ringkasan
       summary: {
         today: 750000,
         thisWeek: 2450000,
         thisMonth: 8900000
       },
-      
+      // Data Seluruh Transaksi
       transactions: [
         {
           id: 'TRX-1001',
@@ -234,7 +241,7 @@ export default {
   margin: 0;
 }
 
-
+/* Grid Card Ringkasan */
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -268,7 +275,7 @@ export default {
   color: #94A3B8;
 }
 
-
+/* Card Utama */
 .card {
   background: #FFFFFF;
   border-radius: 16px;
@@ -285,7 +292,7 @@ export default {
   margin: 0 0 16px 0;
 }
 
-
+/* Filter Bar */
 .filter-bar {
   display: flex;
   gap: 16px;
@@ -320,7 +327,7 @@ export default {
 }
 
 .search-input:focus, .filter-select:focus {
-  border-color: #6366F1; 
+  border-color: #6366F1; /* Primary */
   background-color: #FFFFFF;
 }
 
@@ -336,7 +343,7 @@ export default {
   cursor: pointer;
 }
 
-
+/* Tabel */
 .table-responsive {
   overflow-x: auto;
   border-radius: 10px;
@@ -400,7 +407,7 @@ export default {
 }
 
 .amount-cell.income {
-  color: #10B981; 
+  color: #10B981; /* Secondary Accent */
 }
 
 .amount-cell.expense {
@@ -413,7 +420,7 @@ export default {
 }
 
 .status-cell.berhasil {
-  color: #10B981; 
+  color: #10B981; /* Secondary Accent */
 }
 
 .status-cell.diproses {
