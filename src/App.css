@@ -1,4 +1,9 @@
 main { width: 100%; margin: auto; }
+.navbar { position: sticky; top: 0; z-index: 50; display: flex; width: 100%; align-items: center; justify-content: space-between; border-bottom: 1px solid #eeeef3; background: #fff; padding: 1.25rem; }
+.navbar__brand { color: #17182b; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.125rem; font-weight: 700; }
+.navbar__links { display: flex; align-items: center; gap: 1.25rem; color: #68697b; font-size: .875rem; }
+.navbar__link { transition: color .2s; }
+.navbar__link:hover { color: var(--primary); }
 .hero, .features { width: min(760px, calc(100% - 40px)); margin-inline: auto; }
 .hero { max-width: 680px; margin: 105px auto 120px; text-align: center; }
 h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -16,4 +21,11 @@ h1 span { color: var(--primary); }
   .hero { margin: 80px auto 92px; }
   .intro { font-size: 14px; }
   .features { padding-bottom: 58px; }
+}
+@media (min-width: 640px) {
+  .navbar { padding-inline: 2rem; }
+  .navbar__links { gap: 2rem; }
+}
+@media (min-width: 1024px) {
+  .navbar { padding-inline: 3.5rem; }
 }

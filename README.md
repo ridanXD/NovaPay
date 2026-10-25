@@ -1,6 +1,6 @@
 # NovaPay
 
-Landing page NovaPay dibuat menggunakan React, JavaScript, Tailwind CSS, dan Vite.
+Landing page NovaPay dibuat menggunakan Vue, JavaScript, CSS, dan Vite.
 
 ## Menjalankan project
 
