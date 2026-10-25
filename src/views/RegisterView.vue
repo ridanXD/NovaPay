@@ -1,6 +1,9 @@
 <script setup>
 import { computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import AuthLayout from '../components/AuthLayout.vue'
+
+const router = useRouter()
 
 const form = reactive({
   name: '',
@@ -15,7 +18,8 @@ const passwordMismatch = computed(
 
 function handleSubmit() {
   if (passwordMismatch.value) return
-  console.log('register', form)
+  // Belum ada backend, jadi langsung arahkan ke halaman login
+  router.push('/login')
 }
 </script>
 

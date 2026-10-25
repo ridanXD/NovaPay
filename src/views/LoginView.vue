@@ -1,6 +1,9 @@
 <script setup>
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import AuthLayout from '../components/AuthLayout.vue'
+
+const router = useRouter()
 
 const form = reactive({
   email: '',
@@ -9,7 +12,8 @@ const form = reactive({
 })
 
 function handleSubmit() {
-  console.log('login', form)
+  // Belum ada backend, jadi langsung masuk ke dashboard
+  router.push('/dashboard')
 }
 </script>
 

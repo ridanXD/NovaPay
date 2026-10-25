@@ -13,10 +13,10 @@ const router = createRouter({
     { path: '/', name: 'landing', component: LandingView },
     { path: '/login', name: 'login', component: LoginView },
     { path: '/register', name: 'register', component: RegisterView },
-    { path: '/dashboard', name: 'dashboard', component: DashboardView },
-    { path: '/transactions', name: 'transactions', component: TransactionHistoryView },
-    { path: '/api-docs', name: 'api-docs', component: ApiDocumentationView },
-    { path: '/kasir-cepat', name: 'kasir-cepat', component: KasirCepatView },
+    { path: '/dashboard', name: 'dashboard', component: DashboardView, meta: { layout: 'app' } },
+    { path: '/transactions', name: 'transactions', component: TransactionHistoryView, meta: { layout: 'app' } },
+    { path: '/api-docs', name: 'api-docs', component: ApiDocumentationView, meta: { layout: 'app' } },
+    { path: '/kasir-cepat', name: 'kasir-cepat', component: KasirCepatView, meta: { layout: 'app' } },
   ],
 })
 

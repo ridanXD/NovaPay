@@ -87,7 +87,7 @@ function formatRupiah(value) {
 </script>
 
 <template>
-  <main class="cashier">
+  <div class="cashier">
     <header class="page-header">
       <div>
         <h1>Kasir Cepat</h1>
@@ -179,16 +179,23 @@ function formatRupiah(value) {
         </button>
       </aside>
     </section>
-  </main>
+  </div>
 </template>
 
 <style scoped>
 .cashier {
-  padding: 32px;
-  color: #20352c;
-  background: #f5f8f5;
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  padding: 32px;
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  color: var(--text);
 }
 
 .page-header {
@@ -202,20 +209,22 @@ function formatRupiah(value) {
 h1 {
   margin: 0 0 8px;
   font-size: 28px;
+  font-weight: 700;
 }
 
 .page-header p,
 .muted {
-  color: #77867e;
   margin: 0;
+  color: var(--muted);
 }
 
 .status {
-  color: #168052;
-  background: #e0f4e8;
-  border-radius: 20px;
   padding: 10px 14px;
+  border-radius: 20px;
+  color: var(--accent);
+  background: rgba(16, 185, 129, 0.12);
   font-size: 13px;
+  font-weight: 600;
 }
 
 .layout {
@@ -229,10 +238,21 @@ h1 {
   box-sizing: border-box;
   width: 100%;
   padding: 13px;
-  border: 1px solid #dce5de;
+  border: 1.5px solid var(--border);
   border-radius: 10px;
-  background: white;
+  background: var(--white);
+  color: var(--text);
   font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.search:focus,
+.cart input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-soft);
 }
 
 .categories {
@@ -248,17 +268,27 @@ button {
 }
 
 .categories button {
-  border: 1px solid #dce5de;
-  border-radius: 9px;
   padding: 9px 14px;
-  background: white;
-  color: #53645a;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--white);
+  color: var(--muted);
+  font-weight: 500;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.categories button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .categories button.active {
-  background: #18794e;
-  color: white;
-  border-color: #18794e;
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--white);
 }
 
 .products {
@@ -269,43 +299,56 @@ button {
 
 .product-card,
 .cart {
-  background: white;
-  border: 1px solid #e5ece6;
-  border-radius: 14px;
   padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--white);
 }
 
 .product-category {
-  color: #188052;
+  color: var(--accent);
   font-size: 12px;
+  font-weight: 600;
 }
 
 .product-card h3 {
   margin: 14px 0 8px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .product-card p {
-  font-weight: bold;
+  font-family: var(--font-heading);
+  font-weight: 600;
 }
 
 .add-button,
 .checkout {
   width: 100%;
+  padding: 12px;
   border: 0;
   border-radius: 9px;
-  padding: 12px;
-  background: #18794e;
-  color: white;
+  background: var(--primary);
+  color: var(--white);
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.add-button:hover,
+.checkout:hover {
+  background: var(--primary-dark);
 }
 
 .cart h2 {
   margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .empty {
-  text-align: center;
   padding: 28px 0;
-  color: #77867e;
+  color: var(--muted);
+  text-align: center;
 }
 
 .empty span {
@@ -318,7 +361,7 @@ button {
   align-items: center;
   gap: 10px;
   padding: 16px 0;
-  border-bottom: 1px solid #edf1ed;
+  border-bottom: 1px solid var(--border);
 }
 
 .cart-info {
@@ -327,8 +370,8 @@ button {
 }
 
 .cart-info span {
+  color: var(--muted);
   font-size: 13px;
-  color: #77867e;
 }
 
 .quantity {
@@ -338,11 +381,17 @@ button {
 }
 
 .quantity button {
-  border: 1px solid #dce5de;
-  background: white;
-  border-radius: 6px;
   width: 28px;
   height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--text);
+}
+
+.quantity button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .total,
@@ -353,10 +402,24 @@ button {
   margin: 20px 0;
 }
 
+.total strong,
+.change strong {
+  font-family: var(--font-heading);
+}
+
+.total strong {
+  color: var(--primary);
+}
+
+.change strong {
+  color: var(--accent);
+}
+
 .cart label {
   display: block;
-  font-size: 13px;
   margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .message {
@@ -366,7 +429,7 @@ button {
 
 .checkout {
   margin-top: 10px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 @media (max-width: 760px) {
