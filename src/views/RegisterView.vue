@@ -74,5 +74,5 @@ function handleSubmit() {
 </template>
 
 <style scoped>
-@import '../components/auth-form.css';
+@import '../assets/styles/auth-form.css';
 </style>

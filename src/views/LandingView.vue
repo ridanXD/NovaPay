@@ -1,10 +1,10 @@
 <script setup>
-import Navbar from '../components/Navbar.vue'
+import LandingNavbar from '../components/LandingNavbar.vue'
 </script>
 
 <template>
   <main class="landing">
-    <Navbar />
+    <LandingNavbar />
     <section id="home" class="hero">
       <h1>Bayar dan kirim uang<br /><span>tanpa ribet.</span></h1>
       <p class="intro">NovaPay bantu kamu mengatur pembayaran sehari-hari dalam satu tempat.</p>

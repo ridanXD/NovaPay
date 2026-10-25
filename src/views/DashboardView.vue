@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import StatCard from './components/StatCard.vue'
-import './dashboard.css'
+import StatCard from '../components/StatCard.vue'
+import '../assets/styles/dashboard.css'
 
 const menuOpen = ref(false)
 const activePage = ref('Dashboard')
