@@ -520,3 +520,8 @@ button:focus-visible {
     animation-iteration-count: 1 !important;
   }
 }
+a.brand,
+a.brand:hover {
+  color: #101828;
+  text-decoration: none;
+}

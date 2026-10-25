@@ -31,7 +31,7 @@
 
       <!-- Section Seluruh Transaksi -->
       <div class="card main-card">
-        <div class="section-title">
+        <div class="card-heading">
           <h3>Seluruh Transaksi</h3>
         </div>
 
@@ -207,14 +207,12 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
-
 .page-wrapper {
-  background-color: #F8FAFC;
+  background-color: var(--bg);
   min-height: 100vh;
   padding: 32px 24px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: #0F172A;
+  font-family: var(--font-body);
+  color: var(--text);
   box-sizing: border-box;
 }
 
@@ -228,15 +226,15 @@ export default {
 }
 
 .history-header h2 {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-heading);
   font-size: 26px;
   font-weight: 700;
-  color: #0F172A;
+  color: var(--text);
   margin: 0 0 4px 0;
 }
 
 .subtitle {
-  color: #64748B;
+  color: var(--muted);
   font-size: 14px;
   margin: 0;
 }
@@ -255,40 +253,45 @@ export default {
 }
 
 .summary-label {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 600;
-  color: #64748B;
+  color: var(--primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .summary-value {
+  font-family: var(--font-heading);
   font-size: 22px;
   font-weight: 700;
-  color: #0F172A;
+  color: var(--text);
   margin: 6px 0 2px 0;
 }
 
 .summary-subtext {
   font-size: 12px;
-  color: #94A3B8;
+  color: #9ca3af;
 }
 
 /* Card Utama */
 .card {
-  background: #FFFFFF;
+  background: var(--white);
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  border: 1px solid #F1F5F9;
+  border: 1px solid var(--border);
 }
 
-.section-title h3 {
-  font-family: 'Poppins', sans-serif;
+.card.summary-card {
+  border-top: 4px solid var(--primary);
+}
+
+.card-heading h3 {
+  font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 600;
-  color: #0F172A;
+  color: var(--text);
   margin: 0 0 16px 0;
 }
 
@@ -310,36 +313,41 @@ export default {
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #94A3B8;
+  color: #9ca3af;
 }
 
 .search-input {
   width: 100%;
   padding: 10px 14px 10px 42px;
-  border: 1px solid #E2E8F0;
+  border: 1px solid var(--border);
   border-radius: 10px;
   font-size: 14px;
   outline: none;
   box-sizing: border-box;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: #0F172A;
-  background-color: #FAFAFA;
+  font-family: var(--font-body);
+  color: var(--text);
+  background-color: var(--white);
 }
 
 .search-input:focus, .filter-select:focus {
-  border-color: #6366F1; /* Primary */
-  background-color: #FFFFFF;
+  border-color: var(--primary);
+  background-color: var(--white);
+  box-shadow: 0 0 0 4px var(--primary-soft);
+}
+
+.search-box:focus-within .search-icon {
+  color: var(--primary);
 }
 
 .filter-select {
   padding: 10px 16px;
-  border: 1px solid #E2E8F0;
+  border: 1px solid var(--border);
   border-radius: 10px;
   font-size: 14px;
   outline: none;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: #334155;
-  background-color: #FAFAFA;
+  font-family: var(--font-body);
+  color: var(--text);
+  background-color: var(--white);
   cursor: pointer;
 }
 
@@ -347,7 +355,7 @@ export default {
 .table-responsive {
   overflow-x: auto;
   border-radius: 10px;
-  border: 1px solid #F1F5F9;
+  border: 1px solid var(--border);
 }
 
 .history-table {
@@ -355,16 +363,16 @@ export default {
   border-collapse: collapse;
   text-align: left;
   font-size: 14px;
-  background-color: #FFFFFF;
+  background-color: var(--white);
 }
 
 .history-table th {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
-  background-color: #F8FAFC;
-  color: #475569;
+  background-color: var(--primary-soft);
+  color: var(--primary-dark);
   padding: 14px 18px;
-  border-bottom: 1px solid #E2E8F0;
+  border-bottom: 1px solid var(--border);
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -372,8 +380,12 @@ export default {
 
 .history-table td {
   padding: 16px 18px;
-  border-bottom: 1px solid #F1F5F9;
-  color: #334155;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.history-table tbody tr:hover td {
+  background-color: #f7f7ff;
 }
 
 .history-table tr:last-child td {
@@ -381,37 +393,38 @@ export default {
 }
 
 .date-cell {
-  color: #64748B;
+  color: var(--muted);
   white-space: nowrap;
   font-size: 13px;
 }
 
 .description-cell .title-text {
   display: block;
-  color: #0F172A;
+  color: var(--text);
   font-weight: 600;
   font-size: 14px;
 }
 
 .description-cell .sub-text {
-  color: #94A3B8;
+  color: #9ca3af;
   font-size: 12px;
 }
 
 .type-cell {
-  color: #475569;
+  color: var(--muted);
 }
 
 .amount-cell {
+  font-family: var(--font-heading);
   font-weight: 600;
 }
 
 .amount-cell.income {
-  color: #10B981; /* Secondary Accent */
+  color: var(--accent);
 }
 
 .amount-cell.expense {
-  color: #0F172A;
+  color: var(--text);
 }
 
 .status-cell {
@@ -420,7 +433,7 @@ export default {
 }
 
 .status-cell.berhasil {
-  color: #10B981; /* Secondary Accent */
+  color: var(--accent);
 }
 
 .status-cell.diproses {
@@ -434,7 +447,7 @@ export default {
 .state-message {
   text-align: center;
   padding: 40px;
-  color: #64748B;
+  color: var(--muted);
 }
 
 .state-message.error {
@@ -443,7 +456,7 @@ export default {
 
 .empty-state {
   text-align: center;
-  color: #94A3B8;
+  color: #9ca3af;
   padding: 32px;
 }
 </style>
