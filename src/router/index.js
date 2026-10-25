@@ -4,6 +4,7 @@ import RegisterView from '../views/RegisterView.vue'
 import DashboardView from '../DashboardView.vue'
 import TransactionHistory from '../components/TransactionHistory.vue'
 import ApiDocumentation from '../components/ApiDocumentation.vue'
+import KasirCepat from '../views/KasirCepat.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,6 +15,7 @@ const router = createRouter({
     { path: '/dashboard', name: 'dashboard', component: DashboardView },
     { path: '/transactions', name: 'transactions', component: TransactionHistory },
     { path: '/api-docs', name: 'api-docs', component: ApiDocumentation },
+    { path: '/kasir-cepat', name: 'kasir-cepat', component: KasirCepat },
   ],
 })
 
