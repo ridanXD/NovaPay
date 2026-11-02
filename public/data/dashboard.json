@@ -1,0 +1,13 @@
+{
+  "balance": {
+    "amount": 1250000,
+    "withdrawFee": 3500
+  },
+  "stats": [
+    { "title": "Transaksi Bulan Ini", "subtitle": "Oktober 2026", "value": 4850000, "format": "currency" },
+    { "title": "Transaksi Hari Ini", "subtitle": "25 Oktober 2026", "value": 325000, "format": "currency" },
+    { "title": "Total Transaksi Pending", "subtitle": "Menunggu pembayaran", "value": 75000, "format": "currency" },
+    { "title": "Volume My QRIS", "subtitle": "Bulan ini", "value": 1200000, "format": "currency" },
+    { "title": "Success Rate", "subtitle": "Transaksi berhasil", "value": 96.4, "format": "percent" }
+  ]
+}
