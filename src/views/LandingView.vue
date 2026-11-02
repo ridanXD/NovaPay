@@ -1,118 +1,190 @@
+
 <script setup>
 import LandingNavbar from '../components/LandingNavbar.vue'
+import DataState from '../components/DataState.vue'
+import { getFeatures } from '../services/api'
+import { useFetch } from '../composables/useFetch'
+
+const { data: features, loading, error, load } = useFetch(getFeatures)
 </script>
 
 <template>
-  <main class="landing">
+  <div class="landing">
     <LandingNavbar />
-    <section id="home" class="hero">
-      <h1>Bayar dan kirim uang<br /><span>tanpa ribet.</span></h1>
-      <p class="intro">NovaPay bantu kamu mengatur pembayaran sehari-hari dalam satu tempat.</p>
-    </section>
 
-    <section id="features" class="features">
-      <h2>Yang kamu butuhkan</h2>
-      <article><span>01</span><div><h3>Bayar dengan mudah</h3><p>Selesaikan pembayaran tanpa langkah yang berbelit.</p></div></article>
-      <article><span>02</span><div><h3>Kirim uang cepat</h3><p>Kirim uang ke teman dan keluarga dengan praktis.</p></div></article>
-      <article><span>03</span><div><h3>Pantau transaksi</h3><p>Lihat aktivitas pembayaranmu di satu tempat.</p></div></article>
-    </section>
-  </main>
+    <main>
+      <section id="home" class="hero">
+        <div class="hero__content">
+          <span class="hero__label">PEMBAYARAN DIGITAL</span>
+
+          <h1>
+            Bayar dan kirim uang,<br />
+            <span>tanpa ribet.</span>
+          </h1>
+
+          <p>
+            Kelola pembayaran dan kirim uang dengan lebih mudah
+            bersama NovaPay.
+          </p>
+        </div>
+      </section>
+
+      <section id="features" class="features">
+        <h2>Yang kamu butuhkan</h2>
+
+        <DataState :loading="loading" :error="error" @retry="load">
+          <div class="features__grid">
+            <article
+              v-for="(feature, index) in features || []"
+              :key="feature.id"
+              class="feature"
+            >
+              <span class="feature__number">
+                {{ String(index + 1).padStart(2, '0') }}
+              </span>
+
+              <h3>{{ feature.title }}</h3>
+              <p>{{ feature.description }}</p>
+            </article>
+          </div>
+        </DataState>
+      </section>
+    </main>
+
+    <footer class="landing__footer">
+      <p>&copy; NovaPay. Semua hak dilindungi.</p>
+    </footer>
+  </div>
 </template>
 
 <style scoped>
 .landing {
-  width: 100%;
   min-height: 100vh;
-  margin: auto;
-  color: #17182b;
-  background: #fff;
-}
-
-.hero,
-.features {
-  width: min(760px, calc(100% - 40px));
-  margin-inline: auto;
+  background: var(--white);
+  color: var(--text);
 }
 
 .hero {
-  max-width: 680px;
-  margin: 105px auto 120px;
+  display: flex;
+  min-height: 65vh;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px;
+  background: var(--text);
+  color: var(--white);
   text-align: center;
 }
 
-h1,
-h2,
-h3 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+.hero__content {
+  width: 100%;
+  max-width: 850px;
 }
 
-h1 {
-  margin-bottom: 18px;
-  font-size: clamp(42px, 7vw, 64px);
-  line-height: 1.12;
-  letter-spacing: -0.06em;
+.hero__label {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding: 8px 16px;
+  border: 1px solid var(--primary);
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
 }
 
-h1 span {
+.hero h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 6vw, 68px);
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.hero h1 span {
   color: var(--primary);
 }
 
-.intro {
-  max-width: 430px;
-  margin: 0 auto 26px;
-  color: #77798c;
-  font-size: 15px;
+.hero p {
+  max-width: 520px;
+  margin: 24px auto 0;
+  font-size: 20px;
   line-height: 1.8;
 }
 
 .features {
-  max-width: 760px;
-  margin: auto;
-  padding-bottom: 75px;
+  width: min(100%, 1060px);
+  margin: 0 auto;
+  padding: 80px 24px;
 }
 
 .features h2 {
-  margin-bottom: 18px;
-  font-size: 22px;
-  letter-spacing: -0.04em;
+  margin: 0 0 48px;
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
 }
 
-.features article {
-  display: flex;
-  gap: 22px;
-  align-items: baseline;
-  padding: 18px 0;
-  border-top: 1px solid #eeeef3;
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
 
-.features article > span {
-  color: var(--accent);
-  font-size: 11px;
+.feature {
+  min-width: 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.feature__number {
+  color: var(--primary);
+  font-size: 14px;
   font-weight: 600;
 }
 
-.features h3 {
-  margin: 0 0 5px;
-  font-size: 14px;
+.feature h3 {
+  margin: 16px 0 10px;
+  font-family: var(--font-heading);
+  font-size: 24px;
 }
 
-.features article p {
+.feature p {
   margin: 0;
-  color: #77798c;
-  font-size: 12px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
 }
 
-@media (max-width: 560px) {
+.landing__footer {
+  padding: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.landing__footer p {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
   .hero {
-    margin: 80px auto 92px;
+    min-height: 55vh;
+    padding: 80px 20px;
   }
 
-  .intro {
-    font-size: 14px;
+  .hero p {
+    font-size: 16px;
   }
 
   .features {
-    padding-bottom: 58px;
+    padding: 56px 20px;
+  }
+
+  .features__grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
 }
 </style>
