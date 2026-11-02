@@ -78,3 +78,4 @@ defineEmits(['retry'])
   }
 }
 </style>
+<slot v-else />
