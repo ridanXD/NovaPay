@@ -11,45 +11,63 @@
             <span class="base-url-label">Base Endpoint URL</span>
             <span class="base-url-value">https://novapay.m1sec.my.id/api.php</span>
           </div>
-          <button @click="copyText('https://novapay.m1sec.my.id/api.php', 'base_url')" class="btn-copy-base">
-            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+          <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php', 'base_url')" class="btn-copy-base">
+            <svg aria-hidden="true" class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
             <span>{{ copiedKeys['base_url'] ? 'Tersalin' : 'Salin Base URL' }}</span>
           </button>
         </div>
       </header>
 
-      <nav class="toc-card">
-        <div class="toc-header">
-          <h2>Daftar Isi</h2>
-          <span>6 Bagian</span>
-        </div>
-        <div class="toc-grid">
-          <a href="#create" class="toc-item">
-            <span class="toc-num">1.</span>
-            <span>Create Payment</span>
-          </a>
-          <a href="#snap" class="toc-item">
-            <span class="toc-num">2.</span>
-            <span>Snap (Popup)</span>
-          </a>
-          <a href="#check" class="toc-item">
-            <span class="toc-num">3.</span>
-            <span>Check Status</span>
-          </a>
-          <a href="#cancel" class="toc-item">
-            <span class="toc-num">4.</span>
-            <span>Cancel Transaction</span>
-          </a>
-          <a href="#webhook" class="toc-item">
-            <span class="toc-num">5.</span>
-            <span>Webhook (Callback)</span>
-          </a>
-          <a href="#extras" class="toc-item">
-            <span class="toc-num">6.</span>
-            <span>Fitur Tambahan</span>
-          </a>
-        </div>
-      </nav>
+      <DataState :loading="loading" :error="error" @retry="load">
+        <nav class="toc-card">
+          <div class="toc-header">
+            <h2>Daftar Isi</h2>
+            <span>{{ endpoints?.length || 0 }} Bagian</span>
+          </div>
+          <div class="toc-grid">
+            <a
+              v-for="item in endpoints"
+              :key="item.id"
+              :href="`#${item.id}`"
+              class="toc-item"
+            >
+              <span class="toc-num">{{ item.number }}.</span>
+              <span>{{ item.name }}</span>
+            </a>
+          </div>
+        </nav>
+
+        <section class="summary-table-section">
+          <h3 class="subsection-title">Ringkasan Endpoint API</h3>
+          <div class="table-container">
+            <table class="docs-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No</th>
+                  <th style="width: 220px;">Endpoint / Layanan</th>
+                  <th style="width: 100px;">Metode</th>
+                  <th>Deskripsi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="ep in endpoints" :key="ep.id">
+                  <td class="param-cell">{{ ep.number }}</td>
+                  <td>
+                    <a :href="`#${ep.id}`" class="endpoint-link">
+                      <strong>{{ ep.name }}</strong>
+                    </a>
+                  </td>
+                  <td>
+                    <span class="method-tag" :class="ep.method.toLowerCase().includes('get') ? 'get' : (ep.method.toLowerCase().includes('post') ? 'post' : '')">
+                      {{ ep.method }}
+                    </span>
+                  </td>
+                  <td>{{ ep.description }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
       <section id="create" class="section-block">
         <div class="section-title-row">
@@ -60,9 +78,9 @@
 
         <div class="request-box">
           <div class="request-box-header">
-            <span>REQUEST URL</span>
-            <button @click="copyText('https://novapay.m1sec.my.id/api.php?action=createpayment&apikey={APIKEY}&amount={NOMINAL}', 'req_create')" class="btn-copy-link">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <span>Request URL</span>
+            <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=createpayment&apikey={APIKEY}&amount={NOMINAL}', 'req_create')" class="btn-copy-link">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['req_create'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -104,8 +122,8 @@
         <div class="code-card">
           <div class="code-card-header">
             <span class="code-lang">PHP (Server-Side)</span>
-            <button @click="copyCode('php_create_code', 'code_create')" class="btn-code-copy">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <button type="button" @click="copyCode('php_create_code', 'code_create')" class="btn-code-copy">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['code_create'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -126,8 +144,8 @@
         <h3 class="subsection-title">Contoh Respon JSON (Sukses)</h3>
         <div class="code-card">
           <div class="code-card-header right-only">
-            <button @click="copyCode('json_create_resp', 'resp_create')" class="btn-code-copy-link">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <button type="button" @click="copyCode('json_create_resp', 'resp_create')" class="btn-code-copy-link">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['resp_create'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -159,8 +177,8 @@
           <div class="code-card">
             <div class="code-card-header">
               <span class="code-lang">PHP (Server-Side)</span>
-              <button @click="copyCode('php_snap_backend', 'code_snap_be')" class="btn-code-copy">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <button type="button" @click="copyCode('php_snap_backend', 'code_snap_be')" class="btn-code-copy">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['code_snap_be'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -184,8 +202,8 @@
           <div class="code-card">
             <div class="code-card-header">
               <span class="code-lang">HTML &amp; JavaScript</span>
-              <button @click="copyCode('html_snap_frontend', 'code_snap_fe')" class="btn-code-copy">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <button type="button" @click="copyCode('html_snap_frontend', 'code_snap_fe')" class="btn-code-copy">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['code_snap_fe'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -228,9 +246,9 @@
 
         <div class="request-box">
           <div class="request-box-header">
-            <span>REQUEST URL</span>
-            <button @click="copyText('https://novapay.m1sec.my.id/api.php?action=checkstatus&apikey={APIKEY}&transaction_id={TRANSACTION_ID}', 'req_check')" class="btn-copy-link">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <span>Request URL</span>
+            <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=checkstatus&apikey={APIKEY}&transaction_id={TRANSACTION_ID}', 'req_check')" class="btn-copy-link">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['req_check'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -242,8 +260,8 @@
         <div class="code-card">
           <div class="code-card-header">
             <span class="code-lang">PHP (Server-Side)</span>
-            <button @click="copyCode('php_check_code', 'code_check')" class="btn-code-copy">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <button type="button" @click="copyCode('php_check_code', 'code_check')" class="btn-code-copy">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['code_check'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -261,9 +279,9 @@
         <div class="grid-two">
           <div class="code-card">
             <div class="code-card-header">
-              <span class="label-status success">SUKSES / PENDING</span>
-              <button @click="copyCode('json_check_success', 'resp_chk_suc')" class="btn-code-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span class="label-status success">Sukses / Pending</span>
+              <button type="button" @click="copyCode('json_check_success', 'resp_chk_suc')" class="btn-code-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_chk_suc'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -282,8 +300,8 @@
           <div class="code-card">
             <div class="code-card-header">
               <span class="label-status expired">EXPIRED</span>
-              <button @click="copyCode('json_check_expired', 'resp_chk_exp')" class="btn-code-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <button type="button" @click="copyCode('json_check_expired', 'resp_chk_exp')" class="btn-code-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_chk_exp'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -310,9 +328,9 @@
 
         <div class="request-box">
           <div class="request-box-header">
-            <span>REQUEST URL</span>
-            <button @click="copyText('https://novapay.m1sec.my.id/api.php?action=cancel_transaction&apikey={APIKEY}', 'req_cancel')" class="btn-copy-link">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <span>Request URL</span>
+            <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=cancel_transaction&apikey={APIKEY}', 'req_cancel')" class="btn-copy-link">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['req_cancel'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -344,8 +362,8 @@
         <div class="code-card">
           <div class="code-card-header">
             <span class="code-lang">PHP (cURL)</span>
-            <button @click="copyCode('php_cancel_code', 'code_cancel')" class="btn-code-copy">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <button type="button" @click="copyCode('php_cancel_code', 'code_cancel')" class="btn-code-copy">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['code_cancel'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -371,8 +389,8 @@
         <h3 class="subsection-title">Contoh Respon JSON</h3>
         <div class="code-card">
           <div class="code-card-header right-only">
-            <button @click="copyCode('json_cancel_resp', 'resp_cancel')" class="btn-code-copy-link">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <button type="button" @click="copyCode('json_cancel_resp', 'resp_cancel')" class="btn-code-copy-link">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['resp_cancel'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -399,7 +417,7 @@
 
         <div class="banner-purple">
           <div class="banner-title">
-            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <svg aria-hidden="true" class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             <span>Verifikasi Signature</span>
           </div>
           <p class="banner-text">Wajib memvalidasi keaslian webhook dengan memeriksa parameter signature atau header X-NovaPay-Signature menggunakan hash HMAC-SHA256 dengan Secret / Merchant Key Anda.</p>
@@ -408,8 +426,8 @@
         <div class="code-card">
           <div class="code-card-header">
             <span class="code-lang">Contoh Handler PHP</span>
-            <button @click="copyCode('php_webhook_code', 'code_webhook')" class="btn-code-copy">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <button type="button" @click="copyCode('php_webhook_code', 'code_webhook')" class="btn-code-copy">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['code_webhook'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -431,8 +449,8 @@
         <h3 class="subsection-title">Payload Sukses (POST)</h3>
         <div class="code-card">
           <div class="code-card-header right-only">
-            <button @click="copyCode('json_webhook_success', 'resp_wh_suc')" class="btn-code-copy-link">
-              <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <button type="button" @click="copyCode('json_webhook_success', 'resp_wh_suc')" class="btn-code-copy-link">
+              <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['resp_wh_suc'] ? 'Tersalin' : 'Salin' }}</span>
             </button>
           </div>
@@ -455,9 +473,9 @@
         <div class="grid-two">
           <div class="code-card">
             <div class="code-card-header">
-              <span class="label-status default">PAYLOAD: CANCELLED</span>
-              <button @click="copyCode('json_webhook_cancel', 'resp_wh_can')" class="btn-code-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span class="label-status default">Payload: Cancelled</span>
+              <button type="button" @click="copyCode('json_webhook_cancel', 'resp_wh_can')" class="btn-code-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_wh_can'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -479,9 +497,9 @@
 
           <div class="code-card">
             <div class="code-card-header">
-              <span class="label-status expired">PAYLOAD: EXPIRED</span>
-              <button @click="copyCode('json_webhook_expired', 'resp_wh_exp')" class="btn-code-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span class="label-status expired">Payload: Expired</span>
+              <button type="button" @click="copyCode('json_webhook_expired', 'resp_wh_exp')" class="btn-code-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_wh_exp'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -517,9 +535,9 @@
 
           <div class="request-box">
             <div class="request-box-header">
-              <span>REQUEST URL</span>
-              <button @click="copyText('https://novapay.m1sec.my.id/api.php?action=check_profile&apikey={APIKEY}', 'req_profile')" class="btn-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Request URL</span>
+              <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=check_profile&apikey={APIKEY}', 'req_profile')" class="btn-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['req_profile'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -531,8 +549,8 @@
           <div class="code-card">
             <div class="code-card-header">
               <span class="code-lang">PHP (Server-Side)</span>
-              <button @click="copyCode('php_profile_code', 'code_profile')" class="btn-code-copy">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <button type="button" @click="copyCode('php_profile_code', 'code_profile')" class="btn-code-copy">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['code_profile'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -551,8 +569,8 @@
 
           <div class="code-card">
             <div class="code-card-header right-only">
-              <button @click="copyCode('json_profile_resp', 'resp_profile')" class="btn-code-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <button type="button" @click="copyCode('json_profile_resp', 'resp_profile')" class="btn-code-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_profile'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -581,9 +599,9 @@
 
           <div class="request-box">
             <div class="request-box-header">
-              <span>REQUEST URL</span>
-              <button @click="copyText('https://novapay.m1sec.my.id/api.php?action=request_withdrawal', 'req_wd')" class="btn-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Request URL</span>
+              <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=request_withdrawal', 'req_wd')" class="btn-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['req_wd'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -595,8 +613,8 @@
           <div class="code-card">
             <div class="code-card-header">
               <span class="code-lang">PHP (cURL)</span>
-              <button @click="copyCode('php_wd_code', 'code_wd')" class="btn-code-copy">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <button type="button" @click="copyCode('php_wd_code', 'code_wd')" class="btn-code-copy">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['code_wd'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -625,8 +643,8 @@
 
           <div class="code-card">
             <div class="code-card-header right-only">
-              <button @click="copyCode('json_wd_resp', 'resp_wd')" class="btn-code-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <button type="button" @click="copyCode('json_wd_resp', 'resp_wd')" class="btn-code-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_wd'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -656,7 +674,7 @@
 
           <div class="banner-purple">
             <div class="banner-title">
-              <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <svg aria-hidden="true" class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               <span>Perhatian</span>
             </div>
             <p class="banner-text">Nilai parameter code (contoh: BCA) WAJIB digunakan sebagai nilai bank_code pada saat request penarikan dana.</p>
@@ -664,9 +682,9 @@
 
           <div class="request-box">
             <div class="request-box-header">
-              <span>REQUEST URL</span>
-              <button @click="copyText('https://novapay.m1sec.my.id/api.php?action=get_withdrawal_methods&apikey={APIKEY}', 'req_methods')" class="btn-copy-link">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <span>Request URL</span>
+              <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=get_withdrawal_methods&apikey={APIKEY}', 'req_methods')" class="btn-copy-link">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['req_methods'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -678,8 +696,8 @@
           <div class="code-card">
             <div class="code-card-header">
               <span class="code-lang">PHP (Server-Side)</span>
-              <button @click="copyCode('php_methods_code', 'code_methods')" class="btn-code-copy">
-                <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              <button type="button" @click="copyCode('php_methods_code', 'code_methods')" class="btn-code-copy">
+                <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['code_methods'] ? 'Tersalin' : 'Salin' }}</span>
               </button>
             </div>
@@ -723,8 +741,8 @@
 
             <div class="code-card">
               <div class="code-card-header right-only">
-                <button @click="copyCode('json_methods_resp', 'resp_methods')" class="btn-code-copy-link">
-                  <svg class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                <button type="button" @click="copyCode('json_methods_resp', 'resp_methods')" class="btn-code-copy-link">
+                  <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                   <span>{{ copiedKeys['resp_methods'] ? 'Tersalin' : 'Salin' }}</span>
                 </button>
               </div>
@@ -751,39 +769,40 @@
           </div>
         </div>
       </section>
+      </DataState>
 
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ApiDocumentation',
-  data() {
-    return {
-      copiedKeys: {}
-    }
-  },
-  methods: {
-    copyText(text, key) {
-      navigator.clipboard.writeText(text).then(() => {
-        this.copiedKeys[key] = true
-        setTimeout(() => {
-          this.copiedKeys[key] = false
-        }, 1500)
-      })
-    },
-    copyCode(elementId, key) {
-      const el = document.getElementById(elementId)
-      if (!el) return
-      navigator.clipboard.writeText(el.innerText).then(() => {
-        this.copiedKeys[key] = true
-        setTimeout(() => {
-          this.copiedKeys[key] = false
-        }, 1500)
-      })
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+import { getEndpoints } from '../services/api.js'
+import { useFetch } from '../composables/useFetch.js'
+import DataState from '../components/DataState.vue'
+
+const { data: endpoints, loading, error, load } = useFetch(getEndpoints)
+
+const copiedKeys = ref({})
+
+function copyText(text, key) {
+  navigator.clipboard.writeText(text).then(() => {
+    copiedKeys.value[key] = true
+    setTimeout(() => {
+      copiedKeys.value[key] = false
+    }, 1500)
+  })
+}
+
+function copyCode(elementId, key) {
+  const el = document.getElementById(elementId)
+  if (!el) return
+  navigator.clipboard.writeText(el.innerText).then(() => {
+    copiedKeys.value[key] = true
+    setTimeout(() => {
+      copiedKeys.value[key] = false
+    }, 1500)
+  })
 }
 </script>
 
@@ -904,11 +923,9 @@ export default {
 
 .toc-header h2 {
   font-family: 'Poppins', sans-serif;
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #94A3B8;
+  color: #0F172A;
   margin: 0;
 }
 
@@ -929,8 +946,8 @@ export default {
   gap: 8px;
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #F1F5F9;
-  color: #334155;
+  border: 1px solid #E2E8F0;
+  color: #0F172A;
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
@@ -938,9 +955,17 @@ export default {
 }
 
 .toc-item:hover {
-  background: #EEF2FF;
-  border-color: #C7D2FE;
-  color: #4F46E5;
+  background: #F1F5F9;
+  border-color: #CBD5E1;
+  color: #0F172A;
+}
+
+.toc-item:hover span {
+  color: #0F172A;
+}
+
+.toc-item:hover .toc-num {
+  color: #6366F1;
 }
 
 .toc-num {
@@ -1008,12 +1033,10 @@ export default {
 
 .subsection-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #64748B;
-  margin: 20px 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 28px 0 12px 0;
 }
 
 .request-box {
@@ -1032,11 +1055,10 @@ export default {
   padding-bottom: 8px;
   margin-bottom: 8px;
   border-bottom: 1px solid #F1F5F9;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  color: #94A3B8;
-  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  color: #475569;
 }
 
 .btn-copy-link {
@@ -1086,13 +1108,11 @@ export default {
 }
 
 .docs-table th {
-  font-family: 'Poppins', sans-serif;
-  font-size: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   background: #F8FAFC;
-  color: #475569;
+  color: #334155;
   padding: 12px 16px;
   border-bottom: 1px solid #E2E8F0;
 }
@@ -1263,12 +1283,10 @@ export default {
 .banner-title {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #F3E8FF;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
   margin-bottom: 6px;
 }
 
@@ -1293,12 +1311,10 @@ export default {
 
 .field-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #94A3B8;
-  margin: 0 0 14px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0 0 12px 0;
 }
 
 .field-list {
@@ -1344,3 +1360,16 @@ export default {
   height: 14px;
 }
 </style>
+
+.summary-table-section {
+  margin-bottom: 32px;
+}
+
+.endpoint-link {
+  color: #4F46E5;
+  text-decoration: none;
+}
+
+.endpoint-link:hover {
+  text-decoration: underline;
+}

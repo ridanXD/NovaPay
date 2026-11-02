@@ -40,4 +40,20 @@ h1 {
   margin: 8px 0 32px;
   color: var(--muted);
 }
+
+/* Tampilan di HP */
+@media (max-width: 480px) {
+  .auth-main {
+    align-items: flex-start;
+    padding: 32px 16px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    margin-bottom: 24px;
+  }
+}
 </style>
