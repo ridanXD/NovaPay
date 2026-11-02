@@ -1,15 +1,16 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { getProducts } from '../services/api'
+import { useFetch } from '../composables/useFetch'
+import DataState from '../components/DataState.vue'
 
-const products = ref([
-  { id: 1, name: 'Nasi Goreng', price: 15000, category: 'Makanan' },
-  { id: 2, name: 'Mie Goreng', price: 12000, category: 'Makanan' },
-  { id: 3, name: 'Kentang Goreng', price: 10000, category: 'Snack' },
-  { id: 4, name: 'Es Teh', price: 5000, category: 'Minuman' },
-  { id: 5, name: 'Kopi Susu', price: 12000, category: 'Minuman' },
-  { id: 6, name: 'Air Mineral', price: 4000, category: 'Minuman' }
-])
+const {
+  data: products,
+  loading,
+  error,
+  load
+} = useFetch(getProducts)
 
 const cart = ref([])
 const search = ref('')
@@ -20,7 +21,9 @@ const message = ref('')
 const categories = ['Semua', 'Makanan', 'Snack', 'Minuman']
 
 const filteredProducts = computed(() => {
-  return products.value.filter(product => {
+  const productList = products.value || []
+
+  return productList.filter(product => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(search.value.toLowerCase())
@@ -102,6 +105,7 @@ function formatRupiah(value) {
           v-model="search"
           class="search"
           placeholder="Cari nama produk..."
+          aria-label="Cari produk"
         />
 
         <div class="categories">
@@ -115,20 +119,40 @@ function formatRupiah(value) {
           </button>
         </div>
 
-        <div class="products">
-          <article
-            v-for="product in filteredProducts"
-            :key="product.id"
-            class="product-card"
-          >
-            <span class="product-category">{{ product.category }}</span>
-            <h3>{{ product.name }}</h3>
-            <p>{{ formatRupiah(product.price) }}</p>
-            <button class="add-button" @click="addToCart(product)">
-              + Tambah
-            </button>
-          </article>
-        </div>
+        <DataState
+          :loading="loading"
+          :error="error"
+          @retry="load"
+        >
+          <div class="products">
+            <article
+              v-for="product in filteredProducts"
+              :key="product.id"
+              class="product-card"
+            >
+              <span class="product-category">
+                {{ product.category }}
+              </span>
+
+              <h3>{{ product.name }}</h3>
+              <p>{{ formatRupiah(product.price) }}</p>
+
+              <button
+                class="add-button"
+                @click="addToCart(product)"
+              >
+                + Tambah
+              </button>
+            </article>
+
+            <p
+              v-if="filteredProducts.length === 0"
+              class="no-products"
+            >
+              Produk tidak ditemukan.
+            </p>
+          </div>
+        </DataState>
       </div>
 
       <aside class="cart">
@@ -140,10 +164,16 @@ function formatRupiah(value) {
           <span>Pilih produk untuk memulai transaksi.</span>
         </div>
 
-        <div v-for="item in cart" :key="item.id" class="cart-item">
+        <div
+          v-for="item in cart"
+          :key="item.id"
+          class="cart-item"
+        >
           <div class="cart-info">
             <strong>{{ item.name }}</strong>
-            <span>{{ formatRupiah(item.price * item.qty) }}</span>
+            <span>
+              {{ formatRupiah(item.price * item.qty) }}
+            </span>
           </div>
 
           <div class="quantity">
@@ -169,10 +199,14 @@ function formatRupiah(value) {
 
         <div class="change">
           <span>Kembalian</span>
-          <strong>{{ formatRupiah(Math.max(0, change)) }}</strong>
+          <strong>
+            {{ formatRupiah(Math.max(0, change)) }}
+          </strong>
         </div>
 
-        <p v-if="message" class="message">{{ message }}</p>
+        <p v-if="message" class="message">
+          {{ message }}
+        </p>
 
         <button class="checkout" @click="checkout">
           Proses Pembayaran
@@ -425,6 +459,13 @@ button {
 .message {
   color: #b45309;
   font-size: 13px;
+}
+
+.no-products {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  text-align: center;
+  padding: 20px;
 }
 
 .checkout {
