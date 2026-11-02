@@ -1,7 +1,8 @@
 <script setup>
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AuthLayout from '../components/AuthLayout.vue'
+import { getUsers } from '../services/api'
 
 const router = useRouter()
 
@@ -12,23 +13,61 @@ const form = reactive({
   confirmPassword: '',
 })
 
+const loading = ref(false)
+const errorMessage = ref('')
+const successMessage = ref('')
+
 const passwordMismatch = computed(
   () => form.confirmPassword !== '' && form.password !== form.confirmPassword,
 )
 
-function handleSubmit() {
+async function handleSubmit() {
   if (passwordMismatch.value) return
-  // Belum ada backend, jadi langsung arahkan ke halaman login
-  router.push('/login')
+
+  loading.value = true
+  errorMessage.value = ''
+
+  try {
+    // Ambil daftar akun dari mock API untuk cek email sudah dipakai atau belum
+    const users = await getUsers()
+
+    const emailUsed = users.some((item) => item.email === form.email)
+
+    if (emailUsed) {
+      errorMessage.value = 'Email sudah terdaftar. Silakan masuk.'
+      return
+    }
+
+    successMessage.value = 'Akun berhasil dibuat! Mengarahkan ke halaman masuk...'
+    setTimeout(() => router.push('/login'), 1500)
+  } catch (error) {
+    errorMessage.value = error.message
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
   <AuthLayout title="Daftar" subtitle="Buat akun NovaPay kamu.">
     <form class="form" @submit.prevent="handleSubmit">
+      <p v-if="errorMessage" class="alert alert-error" role="alert">
+        {{ errorMessage }}
+      </p>
+      <p v-if="successMessage" class="alert alert-success" role="status">
+        {{ successMessage }}
+      </p>
+
       <div class="field">
         <label for="name">Nama lengkap</label>
-        <input id="name" v-model="form.name" type="text" placeholder="Nama kamu" required />
+        <input
+          id="name"
+          v-model="form.name"
+          type="text"
+          placeholder="Nama kamu"
+          autocomplete="name"
+          required
+        />
       </div>
 
       <div class="field">
@@ -38,6 +77,7 @@ function handleSubmit() {
           v-model="form.email"
           type="email"
           placeholder="nama@email.com"
+          autocomplete="email"
           required
         />
       </div>
@@ -49,6 +89,7 @@ function handleSubmit() {
           v-model="form.password"
           type="password"
           placeholder="Minimal 8 karakter"
+          autocomplete="new-password"
           minlength="8"
           required
         />
@@ -61,13 +102,20 @@ function handleSubmit() {
           v-model="form.confirmPassword"
           type="password"
           placeholder="Ulangi password"
+          autocomplete="new-password"
           :class="{ invalid: passwordMismatch }"
+          :aria-invalid="passwordMismatch"
+          aria-describedby="confirm-error"
           required
         />
-        <span v-if="passwordMismatch" class="error">Password tidak sama</span>
+        <span v-if="passwordMismatch" id="confirm-error" class="error">
+          Password tidak sama
+        </span>
       </div>
 
-      <button type="submit" class="btn-primary">Daftar</button>
+      <button type="submit" class="btn-primary" :disabled="loading || successMessage !== ''">
+        {{ loading ? 'Memproses...' : 'Daftar' }}
+      </button>
 
       <p class="switch">
         Sudah punya akun?

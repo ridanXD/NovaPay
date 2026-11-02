@@ -1,7 +1,8 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AuthLayout from '../components/AuthLayout.vue'
+import { getUsers } from '../services/api'
 
 const router = useRouter()
 
@@ -11,15 +12,42 @@ const form = reactive({
   remember: false,
 })
 
-function handleSubmit() {
-  // Belum ada backend, jadi langsung masuk ke dashboard
-  router.push('/dashboard')
+const loading = ref(false)
+const errorMessage = ref('')
+
+async function handleSubmit() {
+  loading.value = true
+  errorMessage.value = ''
+
+  try {
+    // Ambil daftar akun dari mock API (public/data/users.json)
+    const users = await getUsers()
+
+    const user = users.find(
+      (item) => item.email === form.email && item.password === form.password,
+    )
+
+    if (!user) {
+      errorMessage.value = 'Email atau password salah.'
+      return
+    }
+
+    router.push('/dashboard')
+  } catch (error) {
+    errorMessage.value = error.message
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
   <AuthLayout title="Masuk" subtitle="Selamat datang kembali.">
     <form class="form" @submit.prevent="handleSubmit">
+      <p v-if="errorMessage" class="alert alert-error" role="alert">
+        {{ errorMessage }}
+      </p>
+
       <div class="field">
         <label for="email">Email</label>
         <input
@@ -27,6 +55,7 @@ function handleSubmit() {
           v-model="form.email"
           type="email"
           placeholder="nama@email.com"
+          autocomplete="email"
           required
         />
       </div>
@@ -38,19 +67,19 @@ function handleSubmit() {
           v-model="form.password"
           type="password"
           placeholder="Masukkan password"
+          autocomplete="current-password"
           required
         />
       </div>
 
-      <div class="row">
-        <label class="check">
-          <input v-model="form.remember" type="checkbox" />
-          Ingat saya
-        </label>
-        <a href="#">Lupa password?</a>
-      </div>
+      <label class="check">
+        <input v-model="form.remember" type="checkbox" />
+        Ingat saya
+      </label>
 
-      <button type="submit" class="btn-primary">Masuk</button>
+      <button type="submit" class="btn-primary" :disabled="loading">
+        {{ loading ? 'Memproses...' : 'Masuk' }}
+      </button>
 
       <p class="switch">
         Belum punya akun?

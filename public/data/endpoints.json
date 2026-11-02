@@ -1,0 +1,56 @@
+[
+  {
+    "id": "create",
+    "number": 1,
+    "name": "Create Payment",
+    "method": "GET",
+    "action": "createpayment",
+    "endpoint": "https://novapay.m1sec.my.id/api.php?action=createpayment&apikey={APIKEY}&amount={NOMINAL}",
+    "description": "Membuat tagihan transaksi baru dan menghasilkan kode QRIS serta URL pembayaran checkout."
+  },
+  {
+    "id": "snap",
+    "number": 2,
+    "name": "Snap (Popup)",
+    "method": "JS SDK",
+    "action": "snap.pay()",
+    "endpoint": "https://novapay.m1sec.my.id/assets/js/snap.js",
+    "description": "Menerima pembayaran langsung dalam modal popup tanpa me-redirect pelanggan dari halaman toko Anda."
+  },
+  {
+    "id": "check",
+    "number": 3,
+    "name": "Check Status",
+    "method": "GET",
+    "action": "checkstatus",
+    "endpoint": "https://novapay.m1sec.my.id/api.php?action=checkstatus&apikey={APIKEY}&transaction_id={TRANSACTION_ID}",
+    "description": "Mengecek status pembayaran terkini berdasarkan transaction ID secara manual atau periodik."
+  },
+  {
+    "id": "cancel",
+    "number": 4,
+    "name": "Cancel Transaction",
+    "method": "POST",
+    "action": "cancel_transaction",
+    "endpoint": "https://novapay.m1sec.my.id/api.php?action=cancel_transaction&apikey={APIKEY}",
+    "description": "Membatalkan tagihan transaksi yang masih berstatus PENDING."
+  },
+  {
+    "id": "webhook",
+    "number": 5,
+    "name": "Webhook (Callback)",
+    "method": "POST",
+    "action": "webhook",
+    "endpoint": "Endpoint Callback Merchant",
+    "description": "Notifikasi instan dikirim oleh server NovaPay ke endpoint callback URL Anda secara asynchronous saat status transaksi berubah menjadi SUCCESS, CANCELLED, atau EXPIRED."
+  },
+  {
+    "id": "extras",
+    "number": 6,
+    "name": "Fitur Tambahan",
+    "method": "GET / POST",
+    "action": "check_profile, request_withdrawal, get_withdrawal_methods",
+    "endpoint": "https://novapay.m1sec.my.id/api.php?action=...",
+    "description": "Fitur pendukung meliputi Cek Profil & Saldo, Pengajuan Penarikan Dana (Withdrawal), dan Daftar Metode Penarikan."
+  }
+]
