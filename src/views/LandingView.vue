@@ -1,31 +1,74 @@
+
 <script setup>
 import LandingNavbar from '../components/LandingNavbar.vue'
+import DataState from '../components/DataState.vue'
+import { getFeatures } from '../services/api'
+import { useFetch } from '../composables/useFetch'
+
+const { data: features, loading, error, load } = useFetch(getFeatures)
 </script>
 
 <template>
-  <main class="landing">
+  <div class="landing">
     <LandingNavbar />
-    <section id="home" class="hero">
-      <h1>Bayar dan kirim uang<br /><span>tanpa ribet.</span></h1>
-      <p class="intro">NovaPay bantu kamu mengatur pembayaran sehari-hari dalam satu tempat.</p>
-    </section>
 
-    <section id="features" class="features">
-      <h2>Yang kamu butuhkan</h2>
-      <article><span>01</span><div><h3>Bayar dengan mudah</h3><p>Selesaikan pembayaran tanpa langkah yang berbelit.</p></div></article>
-      <article><span>02</span><div><h3>Kirim uang cepat</h3><p>Kirim uang ke teman dan keluarga dengan praktis.</p></div></article>
-      <article><span>03</span><div><h3>Pantau transaksi</h3><p>Lihat aktivitas pembayaranmu di satu tempat.</p></div></article>
-    </section>
-  </main>
+    <main class="landing__main">
+      <section id="home" class="hero">
+        <h1>
+          Bayar dan kirim uang<br />
+          <span>tanpa ribet.</span>
+        </h1>
+
+        <p class="intro">
+          NovaPay bantu kamu mengatur pembayaran sehari-hari
+          dalam satu tempat.
+        </p>
+      </section>
+
+      <section id="features" class="features">
+        <h2>Yang kamu butuhkan</h2>
+
+        <DataState
+          :loading="loading"
+          :error="error"
+          @retry="load"
+        >
+          <article
+            v-for="(feature, index) in features || []"
+            :key="feature.id"
+          >
+            <span>
+              {{ String(index + 1).padStart(2, '0') }}
+            </span>
+
+            <div>
+              <h3>{{ feature.title }}</h3>
+              <p>{{ feature.description }}</p>
+            </div>
+          </article>
+        </DataState>
+      </section>
+    </main>
+
+    <footer class="landing__footer">
+      <p>&copy; NovaPay. Semua hak dilindungi.</p>
+    </footer>
+  </div>
 </template>
 
 <style scoped>
 .landing {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 100vh;
-  margin: auto;
   color: #17182b;
   background: #fff;
+}
+
+.landing__main {
+  flex: 1;
+  width: 100%;
 }
 
 .hero,
@@ -36,7 +79,8 @@ import LandingNavbar from '../components/LandingNavbar.vue'
 
 .hero {
   max-width: 680px;
-  margin: 105px auto 120px;
+  margin-top: 105px;
+  margin-bottom: 120px;
   text-align: center;
 }
 
@@ -59,15 +103,13 @@ h1 span {
 
 .intro {
   max-width: 430px;
-  margin: 0 auto 26px;
+  margin: 0 auto;
   color: #77798c;
   font-size: 15px;
   line-height: 1.8;
 }
 
 .features {
-  max-width: 760px;
-  margin: auto;
   padding-bottom: 75px;
 }
 
@@ -100,11 +142,25 @@ h1 span {
   margin: 0;
   color: #77798c;
   font-size: 12px;
+  line-height: 1.6;
+}
+
+.landing__footer {
+  padding: 24px 20px;
+  border-top: 1px solid #eeeef3;
+  color: #77798c;
+  font-size: 12px;
+  text-align: center;
+}
+
+.landing__footer p {
+  margin: 0;
 }
 
 @media (max-width: 560px) {
   .hero {
-    margin: 80px auto 92px;
+    margin-top: 80px;
+    margin-bottom: 92px;
   }
 
   .intro {
