@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "Nasi Goreng", "price": 15000, "category": "Makanan" },
+  { "id": 2, "name": "Mie Goreng", "price": 12000, "category": "Makanan" },
+  { "id": 3, "name": "Kentang Goreng", "price": 10000, "category": "Snack" },
+  { "id": 4, "name": "Es Teh", "price": 5000, "category": "Minuman" },
+  { "id": 5, "name": "Kopi Susu", "price": 12000, "category": "Minuman" },
+  { "id": 6, "name": "Air Mineral", "price": 4000, "category": "Minuman" }
+]
