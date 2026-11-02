@@ -78,7 +78,7 @@
 
         <div class="request-box">
           <div class="request-box-header">
-            <span>REQUEST URL</span>
+            <span>Request URL</span>
             <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=createpayment&apikey={APIKEY}&amount={NOMINAL}', 'req_create')" class="btn-copy-link">
               <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['req_create'] ? 'Tersalin' : 'Salin' }}</span>
@@ -246,7 +246,7 @@
 
         <div class="request-box">
           <div class="request-box-header">
-            <span>REQUEST URL</span>
+            <span>Request URL</span>
             <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=checkstatus&apikey={APIKEY}&transaction_id={TRANSACTION_ID}', 'req_check')" class="btn-copy-link">
               <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['req_check'] ? 'Tersalin' : 'Salin' }}</span>
@@ -279,7 +279,7 @@
         <div class="grid-two">
           <div class="code-card">
             <div class="code-card-header">
-              <span class="label-status success">SUKSES / PENDING</span>
+              <span class="label-status success">Sukses / Pending</span>
               <button type="button" @click="copyCode('json_check_success', 'resp_chk_suc')" class="btn-code-copy-link">
                 <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_chk_suc'] ? 'Tersalin' : 'Salin' }}</span>
@@ -328,7 +328,7 @@
 
         <div class="request-box">
           <div class="request-box-header">
-            <span>REQUEST URL</span>
+            <span>Request URL</span>
             <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=cancel_transaction&apikey={APIKEY}', 'req_cancel')" class="btn-copy-link">
               <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
               <span>{{ copiedKeys['req_cancel'] ? 'Tersalin' : 'Salin' }}</span>
@@ -473,7 +473,7 @@
         <div class="grid-two">
           <div class="code-card">
             <div class="code-card-header">
-              <span class="label-status default">PAYLOAD: CANCELLED</span>
+              <span class="label-status default">Payload: Cancelled</span>
               <button type="button" @click="copyCode('json_webhook_cancel', 'resp_wh_can')" class="btn-code-copy-link">
                 <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_wh_can'] ? 'Tersalin' : 'Salin' }}</span>
@@ -497,7 +497,7 @@
 
           <div class="code-card">
             <div class="code-card-header">
-              <span class="label-status expired">PAYLOAD: EXPIRED</span>
+              <span class="label-status expired">Payload: Expired</span>
               <button type="button" @click="copyCode('json_webhook_expired', 'resp_wh_exp')" class="btn-code-copy-link">
                 <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['resp_wh_exp'] ? 'Tersalin' : 'Salin' }}</span>
@@ -535,7 +535,7 @@
 
           <div class="request-box">
             <div class="request-box-header">
-              <span>REQUEST URL</span>
+              <span>Request URL</span>
               <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=check_profile&apikey={APIKEY}', 'req_profile')" class="btn-copy-link">
                 <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['req_profile'] ? 'Tersalin' : 'Salin' }}</span>
@@ -599,7 +599,7 @@
 
           <div class="request-box">
             <div class="request-box-header">
-              <span>REQUEST URL</span>
+              <span>Request URL</span>
               <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=request_withdrawal', 'req_wd')" class="btn-copy-link">
                 <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['req_wd'] ? 'Tersalin' : 'Salin' }}</span>
@@ -682,7 +682,7 @@
 
           <div class="request-box">
             <div class="request-box-header">
-              <span>REQUEST URL</span>
+              <span>Request URL</span>
               <button type="button" @click="copyText('https://novapay.m1sec.my.id/api.php?action=get_withdrawal_methods&apikey={APIKEY}', 'req_methods')" class="btn-copy-link">
                 <svg aria-hidden="true" class="icon-xs" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 <span>{{ copiedKeys['req_methods'] ? 'Tersalin' : 'Salin' }}</span>
@@ -923,11 +923,9 @@ function copyCode(elementId, key) {
 
 .toc-header h2 {
   font-family: 'Poppins', sans-serif;
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #94A3B8;
+  color: #0F172A;
   margin: 0;
 }
 
@@ -948,8 +946,8 @@ function copyCode(elementId, key) {
   gap: 8px;
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #F1F5F9;
-  color: #334155;
+  border: 1px solid #E2E8F0;
+  color: #0F172A;
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
@@ -957,9 +955,17 @@ function copyCode(elementId, key) {
 }
 
 .toc-item:hover {
-  background: #EEF2FF;
-  border-color: #C7D2FE;
-  color: #4F46E5;
+  background: #F1F5F9;
+  border-color: #CBD5E1;
+  color: #0F172A;
+}
+
+.toc-item:hover span {
+  color: #0F172A;
+}
+
+.toc-item:hover .toc-num {
+  color: #6366F1;
 }
 
 .toc-num {
@@ -1027,12 +1033,10 @@ function copyCode(elementId, key) {
 
 .subsection-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #64748B;
-  margin: 20px 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 28px 0 12px 0;
 }
 
 .request-box {
@@ -1051,11 +1055,10 @@ function copyCode(elementId, key) {
   padding-bottom: 8px;
   margin-bottom: 8px;
   border-bottom: 1px solid #F1F5F9;
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  color: #94A3B8;
-  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  color: #475569;
 }
 
 .btn-copy-link {
@@ -1105,13 +1108,11 @@ function copyCode(elementId, key) {
 }
 
 .docs-table th {
-  font-family: 'Poppins', sans-serif;
-  font-size: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   background: #F8FAFC;
-  color: #475569;
+  color: #334155;
   padding: 12px 16px;
   border-bottom: 1px solid #E2E8F0;
 }
@@ -1282,12 +1283,10 @@ function copyCode(elementId, key) {
 .banner-title {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #F3E8FF;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
   margin-bottom: 6px;
 }
 
@@ -1312,12 +1311,10 @@ function copyCode(elementId, key) {
 
 .field-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #94A3B8;
-  margin: 0 0 14px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0 0 12px 0;
 }
 
 .field-list {
